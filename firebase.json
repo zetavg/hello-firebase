@@ -1,5 +1,13 @@
 {
   "database": {
     "rules": "database.rules.json"
+  },
+  "functions": {
+    "source": "functions/lib",
+    "predeploy": [
+      "rm -rf functions/lib",
+      "npm run functions:type-check",
+      "npm run functions:build"
+    ]
   }
 }
