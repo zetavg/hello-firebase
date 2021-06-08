@@ -1,3 +1,6 @@
+# Settings for deploy targets
+/.firebaserc
+
 # Logs
 logs
 *.log
