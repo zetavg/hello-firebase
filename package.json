@@ -3,9 +3,12 @@
   "description": "This is just a wrapper package which installs some shared devDependencies",
   "scripts": {
     "postinstall": "cd functions && npm install",
+    "start": "concurrently -n babel-fns,emulators -c '#f5da55,#d7aefb' 'npm run functions:build:babel -- --watch' 'firebase emulators:start --inspect-functions'",
+    "shell": "cd functions && firebase functions:shell",
     "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
     "functions:type-check": "cd functions && tsc --noEmit",
-    "functions:build": "cd functions && babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline && cp package.json lib/ && cp package-lock.json lib/"
+    "functions:build": "npm run functions:build:babel && cd functions && cp package.json lib/ && cp package-lock.json lib/",
+    "functions:build:babel": "cd functions && babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline"
   },
   "private": true,
   "devDependencies": {
@@ -16,6 +19,7 @@
     "@babel/preset-typescript": "^7.13.0",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
+    "concurrently": "^6.2.0",
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
