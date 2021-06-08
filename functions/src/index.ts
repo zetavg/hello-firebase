@@ -64,8 +64,7 @@ export const setData = functions.https.onRequest(async (request, response) => {
 export const logDataChanges = functions.database
   .ref('/data')
   .onWrite(async (change, context) => {
-    const db = getDb();
-    return await db.ref('data_changelog').push({
+    return await change.after.ref.root.child('data_changelog').push({
       before: change.before.toJSON(),
       after: change.after.toJSON(),
       timestamp: context.timestamp,
