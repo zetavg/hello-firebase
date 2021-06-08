@@ -1,0 +1,8 @@
+{
+  "name": "dev",
+  "description": "This is just a wrapper package which installs some shared devDependencies",
+  "scripts": {
+    "postinstall": "cd functions && npm install"
+  },
+  "private": true
+}
