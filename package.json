@@ -2,7 +2,9 @@
   "name": "dev",
   "description": "This is just a wrapper package which installs some shared devDependencies",
   "scripts": {
-    "postinstall": "cd functions && npm install"
+    "postinstall": "cd functions && npm install",
+    "functions:type-check": "cd functions && tsc --noEmit",
+    "functions:build": "cd functions && babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline && cp package.json lib/ && cp package-lock.json lib/"
   },
   "private": true,
   "devDependencies": {
