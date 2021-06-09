@@ -19,6 +19,7 @@
     "telegraf": "^4.3.0"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.5.10",
     "firebase-functions-test": "^0.2.0"
   },
   "private": true
