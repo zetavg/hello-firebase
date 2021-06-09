@@ -1,3 +1,6 @@
+# Environment config
+/.config.js
+
 # Settings for deploy targets
 /.firebaserc
 

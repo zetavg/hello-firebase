@@ -1,13 +1,25 @@
 import * as functions from 'firebase-functions';
 import { getDb } from './db';
+import init from './init';
 
-// Create and Deploy Your First Cloud Functions
-// https://firebase.google.com/docs/functions/write-firebase-functions
+init(() => {
+  // Run something to initalize stuff.
+  console.log('Initalized!');
+  console.log(`process.env: ${JSON.stringify(process.env)}`);
+  console.log(`functions.config(): ${JSON.stringify(functions.config())}`);
+});
 
 export const helloWorld = functions.https.onRequest((request, response) => {
   functions.logger.info('Hello logs!', { structuredData: true });
   response.send('Hello from Firebase!');
 });
+
+export const helloWorldEu = functions
+  .region('europe-central2')
+  .https.onRequest((request, response) => {
+    functions.logger.info('Hello logs!', { structuredData: true });
+    response.send('Hello from Firebase!');
+  });
 
 export const getData = functions.https.onRequest(async (request, response) => {
   const { path } = request.query;

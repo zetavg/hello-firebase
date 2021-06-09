@@ -1,0 +1,34 @@
+module.exports = {
+  /**
+   * Default configurations that applies to all environments.
+   */
+  default: {
+    my_external_service: {
+      secret_token: 'some-token',
+    },
+  },
+  /**
+   * Only applies if the project alias is "develop".
+   */
+  develop: {
+    my_external_service: {
+      secret_token: 'develop-token',
+    },
+  },
+  /**
+   * Only applies if the project alias is "staging".
+   */
+  staging: {
+    my_external_service: {
+      secret_token: 'staging-token',
+    },
+  },
+  /**
+   * Only applies if the project alias is "production".
+   */
+  production: {
+    my_external_service: {
+      secret_token: 'production-token',
+    },
+  },
+};

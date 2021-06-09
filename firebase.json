@@ -7,7 +7,9 @@
     "predeploy": [
       "rm -rf functions/lib",
       "npm run functions:type-check",
-      "npm run functions:build"
+      "npm run functions:build",
+      "node scripts/set-functions-config.js firebase-project deploy",
+      "node scripts/set-functions-config-regions.js firebase-project deploy"
     ]
   }
 }
