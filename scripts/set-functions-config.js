@@ -64,9 +64,11 @@ try {
 }
 
 const [env] =
-  Object.entries(firebaserc.projects || {}).find(
-    ([, id]) => id === GCLOUD_PROJECT,
-  ) || [];
+  calledBy === 'emulators'
+    ? ['local']
+    : Object.entries(firebaserc.projects || {}).find(
+        ([alias, id]) => alias !== 'default' && id === GCLOUD_PROJECT,
+      ) || [];
 
 const configObj = deepMerge(
   loadedConfig.default,

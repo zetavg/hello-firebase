@@ -47,7 +47,7 @@ const functionAndRegion = Object.entries(functions).map(([name, data]) => [
     'us-central1',
 ]);
 const functionRegionConfig = functionAndRegion.reduce((obj, [name, region]) => {
-  obj[name] = region;
+  obj[underscore(name)] = region;
   return obj;
 }, {});
 
