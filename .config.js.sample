@@ -3,8 +3,23 @@ module.exports = {
    * Default configurations that applies to all environments.
    */
   default: {
-    my_external_service: {
-      secret_token: 'some-token',
+    telegram_bot: {
+      // The token of your bot account recived from BotFather.
+      bot_token: '0000000000:XXX00-xxxxxxxxxxxxxxxxxx_xxxxxxxxxx',
+      // Set a token to protect your API endpoint.
+      // If set, you will need to use the URL with the token `<CLOUD_FUNCTION_URL>?token=<SERVER_TOKEN>` as your bot endpoint.
+      server_token: 'server-token',
+    },
+  },
+  /**
+   * Only applies on local emulator.
+   */
+  local: {
+    telegram_bot: {
+      // If you're using a reverse proxy to serve your bot for development,
+      // fill the host you use to get Telegram's setWebhook be automatically
+      // called with your Telegram bot endpoint while starting.
+      // local_host: 'xxxxxxxxxxxx.ngrok.io',
     },
   },
   /**
@@ -19,24 +34,29 @@ module.exports = {
    * Only applies if the project alias is "develop".
    */
   develop: {
-    my_external_service: {
-      secret_token: 'develop-token',
-    },
   },
   /**
    * Only applies if the project alias is "staging".
    */
   staging: {
-    my_external_service: {
-      secret_token: 'staging-token',
+    telegram_bot: {
+      // The token of your bot account recived from BotFather.
+      bot_token: '0000000000:XXX00-xxxxxxxxxxxxxxxxxx_xxxxxxxxxx',
+      // Set a token to protect your API endpoint.
+      // If set, you will need to use the URL with the token `<CLOUD_FUNCTION_URL>?token=<SERVER_TOKEN>` as your bot endpoint.
+      server_token: 'staging-server-token',
     },
   },
   /**
    * Only applies if the project alias is "production".
    */
   production: {
-    my_external_service: {
-      secret_token: 'production-token',
+    telegram_bot: {
+      // The token of your bot account recived from BotFather.
+      bot_token: '0000000000:XXX00-xxxxxxxxxxxxxxxxxx_xxxxxxxxxx',
+      // Set a token to protect your API endpoint.
+      // If set, you will need to use the URL with the token `<CLOUD_FUNCTION_URL>?token=<SERVER_TOKEN>` as your bot endpoint.
+      server_token: 'production-server-token',
     },
   },
 };

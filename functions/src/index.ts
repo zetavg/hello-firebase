@@ -3,12 +3,10 @@ import { firestore } from 'firebase-admin';
 import { getFirestore, getRealtimeDb } from './db';
 import init from './init';
 
-init(() => {
-  // Run something to initalize stuff.
-  console.log('Initalized!');
-  console.log(`process.env: ${JSON.stringify(process.env)}`);
-  console.log(`functions.config(): ${JSON.stringify(functions.config())}`);
-});
+import {
+  requestHandler as telegramBotRequestHandler,
+  initWebhook as initTelegramBotWebhook,
+} from './telegram-bot';
 
 export const helloWorld = functions.https.onRequest((request, response) => {
   functions.logger.info('Hello logs!', { structuredData: true });
@@ -21,6 +19,9 @@ export const helloWorldEu = functions
     functions.logger.info('Hello logs!', { structuredData: true });
     response.send('Hello from Firebase!');
   });
+
+export const telegramBot = functions.https.onRequest(telegramBotRequestHandler);
+init(() => initTelegramBotWebhook('telegramBot'), 'telegramBot');
 
 export const getData = functions.https.onRequest(async (request, response) => {
   const { path } = request.query;
