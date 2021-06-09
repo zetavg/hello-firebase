@@ -2,16 +2,20 @@
   "name": "dev",
   "description": "This is just a wrapper package which installs some shared devDependencies",
   "scripts": {
-    "postinstall": "cd functions && npm install",
+    "postinstall": "cd functions && npm install && cd ../app && npm install",
     "start": "npm run start:prepare && npm run start:serv",
-    "start:serv": "mkdir -p tmp && concurrently --restart-tries -1 -n babel-fns,emulators -c '#f5da55,#d7aefb' 'npm run functions:build:babel -- --watch' 'firebase emulators:start --inspect-functions --import=tmp/emulators --export-on-exit'",
+    "start:serv": "mkdir -p tmp && concurrently --restart-tries -1 -n babel-fns,emulators,rct-wpk-d -c '#f5da55,#d7aefb,#09d3ac' 'npm run functions:build:babel -- --watch' 'firebase emulators:start --inspect-functions --import=tmp/emulators --export-on-exit --only auth,functions,firestore,database,pubsub,storage' 'npm run start:app'",
+    "start:app": "react-app-rewired start",
     "start:prepare": "npm run functions:build && npm run functions:setruntimeconfig",
     "shell": "npm run start:prepare && cd functions && firebase functions:shell",
     "functions:lint": "eslint ./functions/src --ext .js,.jsx,.ts,.tsx",
     "functions:type-check": "cd functions && tsc --noEmit",
     "functions:build": "npm run functions:build:babel && cd functions && cp package.json lib/ && cp package-lock.json lib/",
     "functions:build:babel": "cd functions && babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
-    "functions:setruntimeconfig": "export GCLOUD_PROJECT=$(firebase use) && node scripts/set-functions-config.js runtimeconfig emulators && node scripts/set-functions-config-regions.js runtimeconfig emulators"
+    "functions:setruntimeconfig": "export GCLOUD_PROJECT=$(firebase use) && node scripts/set-functions-config.js runtimeconfig emulators && node scripts/set-functions-config-regions.js runtimeconfig emulators",
+    "app:type-check": "cd app && tsc --noEmit",
+    "app:test": "NODE_ENV=test node scripts/app-test.js",
+    "app:build": "react-app-rewired build"
   },
   "private": true,
   "devDependencies": {
@@ -20,6 +24,7 @@
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/preset-env": "^7.14.4",
     "@babel/preset-typescript": "^7.13.0",
+    "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
     "concurrently": "^6.2.0",
@@ -27,6 +32,20 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.1",
+    "react-app-rewired": "^2.1.8",
+    "react-scripts": "^4.0.3",
     "typescript": "^4.3.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
