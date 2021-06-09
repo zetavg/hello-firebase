@@ -10,6 +10,9 @@
       "npm run functions:build",
       "node scripts/set-functions-config.js firebase-project deploy",
       "node scripts/set-functions-config-regions.js firebase-project deploy"
+    ],
+    "postdeploy": [
+      "npm run functions:setruntimeconfig"
     ]
   }
 }
