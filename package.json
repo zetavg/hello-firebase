@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "cd functions && npm install",
     "start": "npm run start:prepare && npm run start:serv",
-    "start:serv": "concurrently -n babel-fns,emulators -c '#f5da55,#d7aefb' 'npm run functions:build:babel -- --watch' 'firebase emulators:start --inspect-functions'",
+    "start:serv": "mkdir -p tmp && concurrently --restart-tries -1 -n babel-fns,emulators -c '#f5da55,#d7aefb' 'npm run functions:build:babel -- --watch' 'firebase emulators:start --inspect-functions --import=tmp/emulators --export-on-exit'",
     "start:prepare": "npm run functions:build && npm run functions:setruntimeconfig",
     "shell": "npm run start:prepare && cd functions && firebase functions:shell",
     "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
