@@ -13,6 +13,7 @@
     "functions:build": "npm run functions:build:babel && cd functions && cp package.json lib/ && cp package-lock.json lib/",
     "functions:build:babel": "cd functions && babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
     "functions:setruntimeconfig": "export GCLOUD_PROJECT=$(firebase use) && node scripts/set-functions-config.js runtimeconfig emulators && node scripts/set-functions-config-regions.js runtimeconfig emulators",
+    "app:lint": "eslint ./app/src --ext .js,.jsx,.ts,.tsx",
     "app:type-check": "cd app && tsc --noEmit",
     "app:test": "NODE_ENV=test node scripts/app-test.js",
     "app:build": "react-app-rewired build"
