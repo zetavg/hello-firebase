@@ -7,7 +7,7 @@
     "start:serv": "mkdir -p tmp && concurrently --restart-tries -1 -n babel-fns,emulators -c '#f5da55,#d7aefb' 'npm run functions:build:babel -- --watch' 'firebase emulators:start --inspect-functions --import=tmp/emulators --export-on-exit'",
     "start:prepare": "npm run functions:build && npm run functions:setruntimeconfig",
     "shell": "npm run start:prepare && cd functions && firebase functions:shell",
-    "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
+    "functions:lint": "eslint ./functions/src --ext .js,.jsx,.ts,.tsx",
     "functions:type-check": "cd functions && tsc --noEmit",
     "functions:build": "npm run functions:build:babel && cd functions && cp package.json lib/ && cp package-lock.json lib/",
     "functions:build:babel": "cd functions && babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
