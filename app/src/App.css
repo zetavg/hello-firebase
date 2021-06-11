@@ -47,6 +47,13 @@
   }
 }
 
+.hr {
+  width: 240px;
+  color: #fff;
+  border-color: #eee;
+  border-bottom-width: 0;
+}
+
 .input-group {
   margin: 8px 0;
   display: flex;

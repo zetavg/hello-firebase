@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/auth';
 
 firebase.initializeApp(app.firebaseConfig());
 
@@ -10,6 +11,13 @@ if (app.config().app_use_emulator.firestore === 'true') {
     (app.config().app_use_emulator.firestore_port &&
       parseInt(app.config().app_use_emulator.firestore_port || '', 10)) ||
       8080,
+  );
+}
+
+export const auth = firebase.auth();
+if (app.config().app_use_emulator.auth === 'true') {
+  auth.useEmulator(
+    app.config().app_use_emulator.auth_url || 'http://localhost:9099',
   );
 }
 

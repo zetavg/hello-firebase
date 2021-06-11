@@ -18,6 +18,9 @@ module.exports = {
       // Optional: Connect to the Firestore emulator with a different host and port
       // firestore_host: 'localhost',
       // firestore_port: 8080,
+      auth: true,
+      // Optional: Connect to the Auth emulator with a different URL
+      // auth_url: 'http://localhost:9099',
     },
     my_external_service: {
       secret_token: 'local-token',
