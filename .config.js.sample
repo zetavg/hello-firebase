@@ -5,6 +5,7 @@ module.exports = {
   default: {
     my_external_service: {
       secret_token: 'some-token',
+      public_key: 'some-public-key',
     },
   },
   /**
@@ -13,6 +14,7 @@ module.exports = {
   local: {
     my_external_service: {
       secret_token: 'local-token',
+      public_key: 'local-public-key',
     },
   },
   /**
@@ -21,6 +23,7 @@ module.exports = {
   develop: {
     my_external_service: {
       secret_token: 'develop-token',
+      public_key: 'develop-public-key',
     },
   },
   /**
@@ -29,6 +32,7 @@ module.exports = {
   staging: {
     my_external_service: {
       secret_token: 'staging-token',
+      public_key: 'staging-public-key',
     },
   },
   /**
@@ -37,6 +41,7 @@ module.exports = {
   production: {
     my_external_service: {
       secret_token: 'production-token',
+      public_key: 'production-public-key',
     },
   },
 };

@@ -18,6 +18,12 @@ function App(): JSX.Element {
         >
           Learn React
         </a>
+        <section className="App-info">
+          <p>
+            My External Service's public key is{' '}
+            <code>{app.config().my_external_service.public_key}</code>.
+          </p>
+        </section>
       </header>
     </div>
   );

@@ -1,18 +1,31 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 const path = require('path');
+const TransformInlineAppConfig = require('./babel-plugins/transform-inline-app-config');
 
 module.exports = {
   // The Webpack config to use when compiling your react app for development or production.
   webpack: function (config, env) {
     // ...add your webpack config
+
+    // Push TransformInlineAppConfig into Babel plugins
+    config.module.rules
+      .find((r) => r.oneOf)
+      .oneOf.find(({ loader }) =>
+        loader.match(/\/node_modules\/babel-loader\//),
+      )
+      .options.plugins.push(TransformInlineAppConfig);
+
     return {
       ...config,
-      plugins: config.plugins.filter((plugin) => {
-        // Do not use eslint-webpack-plugin
-        if (plugin.constructor.name === 'ESLintWebpackPlugin') return false;
+      plugins: [
+        ...config.plugins.filter((plugin) => {
+          // Do not use eslint-webpack-plugin
+          if (plugin.constructor.name === 'ESLintWebpackPlugin') return false;
 
-        return true;
-      }),
+          return true;
+        }),
+      ],
     };
   },
   // The Jest config to use when running your jest tests - note that the normal rewires do not
