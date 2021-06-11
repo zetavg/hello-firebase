@@ -5,6 +5,9 @@ const path = require('path');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { exec } = require('child_process');
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { getConfigAndEnv, isObject } = require('../utils/get-config');
+
 const GCLOUD_PROJECT = process.env.GCLOUD_PROJECT;
 const [, , writeTo, calledBy] = process.argv;
 
@@ -17,68 +20,7 @@ function exitWithError(message) {
   process.exit(1);
 }
 
-function isObject(item) {
-  return item && typeof item === 'object' && !Array.isArray(item);
-}
-
-function deepMerge(target, ...sources) {
-  if (!sources.length) return target;
-  const source = sources.shift();
-
-  if (isObject(target) && isObject(source)) {
-    for (const key in source) {
-      if (isObject(source[key])) {
-        if (!target[key]) Object.assign(target, { [key]: {} });
-        deepMerge(target[key], source[key]);
-      } else {
-        Object.assign(target, { [key]: source[key] });
-      }
-    }
-  }
-
-  return deepMerge(target, ...sources);
-}
-
-let loadedConfig;
-try {
-  loadedConfig = require('../.config.js');
-} catch (e) {
-  exitWithError('Cannot load .config.js from project directory');
-}
-if (typeof loadedConfig !== 'object') {
-  exitWithError('Export value of .config.js is not an object');
-}
-if (!loadedConfig.default) {
-  exitWithError('[ERROR] Missing default config in .config.js');
-}
-
-const firebasercPath = path.resolve(__dirname, '..', '.firebaserc');
-let firebaserc = {};
-try {
-  if (fs.existsSync(firebasercPath)) {
-    const data = fs.readFileSync(firebasercPath);
-    firebaserc = JSON.parse(data);
-  }
-} catch (e) {
-  exitWithError(`Cannot read .firebaserc, ${e.message}`);
-}
-
-const [env] =
-  calledBy === 'emulators'
-    ? ['local']
-    : Object.entries(firebaserc.projects || {}).find(
-        ([alias, id]) => alias !== 'default' && id === GCLOUD_PROJECT,
-      ) || [];
-
-const configObj = deepMerge(
-  loadedConfig.default,
-  (env && loadedConfig[env]) || {},
-  {
-    x_firebase_project: {
-      id: GCLOUD_PROJECT,
-    },
-  },
-);
+const [configObj, env] = getConfigAndEnv(calledBy);
 
 if (writeTo === 'runtimeconfig') {
   const runtimeconfigPath = path.resolve(
