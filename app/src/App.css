@@ -46,3 +46,30 @@
     transform: rotate(360deg);
   }
 }
+
+.input-group {
+  margin: 8px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.input-group,
+.input-group input,
+.input-group textarea {
+  font-size: 14px;
+}
+
+.input-group input,
+.input-group textarea {
+  border: 1px solid #eee;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.input-group textarea {
+  height: 80px;
+  width: 180px;
+}
