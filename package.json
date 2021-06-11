@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "cd functions && npm install && cd ../app && npm install",
     "start": "npm run start:prepare && npm run start:serv",
-    "start:serv": "mkdir -p tmp && concurrently --restart-tries -1 -n babel-fns,emulators,rct-wpk-d -c '#f5da55,#d7aefb,#09d3ac' 'npm run functions:build:babel -- --watch' 'firebase emulators:start --inspect-functions --import=tmp/emulators --export-on-exit --only auth,functions,firestore,database,pubsub,storage' 'npm run start:app'",
+    "start:serv": "mkdir -p tmp && concurrently -n babel-fns,emulators,rct-wpk-d -c '#f5da55,#d7aefb,#09d3ac' --kill-others 'npm run functions:build:babel -- --watch' 'firebase emulators:start --inspect-functions --import=tmp/emulators --export-on-exit --only auth,functions,firestore,database,pubsub,storage' 'npm run start:app'",
     "start:app": "EMULATOR=true react-app-rewired start",
     "start:prepare": "npm run functions:build && npm run functions:setruntimeconfig",
     "shell": "npm run start:prepare && cd functions && firebase functions:shell",
