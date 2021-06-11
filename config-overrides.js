@@ -1,20 +1,53 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const path = require('path');
+const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 const TransformInlineAppConfig = require('./babel-plugins/transform-inline-app-config');
+
+function hash(str) {
+  let hash = 0;
+  if (str.length === 0) return hash;
+  for (let i = 0; i < str.length; i++) {
+    const chr = str.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+}
 
 module.exports = {
   // The Webpack config to use when compiling your react app for development or production.
   webpack: function (config, env) {
+    const isEnvDevelopment = env === 'development';
+    const isEnvProduction = env === 'production';
+
     // ...add your webpack config
 
-    // Push TransformInlineAppConfig into Babel plugins
     config.module.rules
       .find((r) => r.oneOf)
-      .oneOf.find(({ loader }) =>
-        loader.match(/\/node_modules\/babel-loader\//),
+      .oneOf.filter(
+        ({ loader }) =>
+          loader && loader.match(/\/node_modules\/babel-loader\//),
       )
-      .options.plugins.push(TransformInlineAppConfig);
+      .forEach((babelLoader) => {
+        if (babelLoader.options.plugins) {
+          babelLoader.options.plugins.push(TransformInlineAppConfig);
+        }
+        const configHash = hash(
+          JSON.stringify(require(path.resolve(__dirname, '.config.js'))),
+        ).toString();
+        const cacheIdentifier =
+          getCacheIdentifier(
+            isEnvProduction ? 'production' : isEnvDevelopment && 'development',
+            [
+              'babel-plugin-named-asset-import',
+              'babel-preset-react-app',
+              'react-dev-utils',
+              'react-scripts',
+            ],
+          ) + `-${configHash}`;
+        babelLoader.options.cacheIdentifier = cacheIdentifier;
+      });
 
     return {
       ...config,
