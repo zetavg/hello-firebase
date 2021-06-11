@@ -12,6 +12,13 @@ module.exports = {
    * Only applies on local emulator.
    */
   local: {
+    // Instrument the app to talk to emulators.
+    app_use_emulator: {
+      firestore: true,
+      // Optional: Connect to the Firestore emulator with a different host and port
+      // firestore_host: 'localhost',
+      // firestore_port: 8080,
+    },
     my_external_service: {
       secret_token: 'local-token',
       public_key: 'local-public-key',
