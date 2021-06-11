@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import firebase, { auth, firestore } from './firebase';
+import firebase, { auth, firestore, googleAuthProvider } from './firebase';
 import logo from './logo.svg';
 import './App.css';
 
@@ -35,7 +35,21 @@ function App(): JSX.Element {
     auth
       .signInAnonymously()
       .catch((error) => {
-        setAuthError(`[${error.errorCode}] ${error.errorMessage}`);
+        console.error(error);
+        setAuthError(`[${error.code}] ${error.message}`);
+      })
+      .finally(() => {
+        setAuthLoading(false);
+      });
+  }, []);
+  const signInWithGoogle = useCallback(() => {
+    setAuthError(null);
+    setAuthLoading(true);
+    auth
+      .signInWithPopup(googleAuthProvider)
+      .catch((error) => {
+        console.error(error);
+        setAuthError(`[${error.code}] ${error.message}`);
       })
       .finally(() => {
         setAuthLoading(false);
@@ -65,7 +79,6 @@ function App(): JSX.Element {
   }, [userDataJson, user?.uid]);
 
   useEffect(() => {
-    signInAnonymously();
     return auth.onAuthStateChanged(async (user) => {
       if (user) {
         setUser(user);
@@ -141,6 +154,7 @@ function App(): JSX.Element {
           return (
             <div className="actions">
               <button onClick={signInAnonymously}>Sign in anonymously</button>{' '}
+              <button onClick={signInWithGoogle}>Sign in with Google</button>{' '}
             </div>
           );
         })()}

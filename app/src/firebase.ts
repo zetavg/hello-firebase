@@ -20,5 +20,6 @@ if (app.config().app_use_emulator.auth === 'true') {
     app.config().app_use_emulator.auth_url || 'http://localhost:9099',
   );
 }
+export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
 export default firebase;
