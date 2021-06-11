@@ -8,6 +8,14 @@ module.exports = {
     },
   },
   /**
+   * Only applies on local emulator.
+   */
+  local: {
+    my_external_service: {
+      secret_token: 'local-token',
+    },
+  },
+  /**
    * Only applies if the project alias is "develop".
    */
   develop: {
